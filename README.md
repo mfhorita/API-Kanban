@@ -1,2 +1,2 @@
-# CursoFastAPI
- Curso de FastAPI
+# fast_zero
+ Projeto FastAPI
