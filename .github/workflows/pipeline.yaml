@@ -32,5 +32,8 @@ jobs:
       - name: Instalar pydantic
         run: poetry add "pydantic[email]"
 
+      - name: instalar python-multipart
+        run: poetry add "python-multipart"
+
       - name: Executar testes
         run: poetry run task test
