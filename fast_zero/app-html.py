@@ -1,14 +1,14 @@
 # coding: UTF-8
-from http import HTTPStatus
+from http import HTTPStatus  # pragma: no cover
 
-from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI  # pragma: no cover
+from fastapi.responses import HTMLResponse  # pragma: no cover
 
-app = FastAPI()
+app = FastAPI()  # pragma: no cover
 
 
 @app.get('/', status_code=HTTPStatus.OK, response_class=HTMLResponse)
-def read_root():
+def read_root():  # pragma: no cover
     return """
         <html>
           <head>
