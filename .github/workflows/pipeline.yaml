@@ -27,7 +27,7 @@ jobs:
         run: poetry install
 
       - name: Instalar pydantic
-        run: pip install "pydantic[email]" --include-deps
+        run: pip install "pydantic[email]"
 
       - name: Executar testes
         run: poetry run task test
