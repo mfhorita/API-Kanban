@@ -28,3 +28,6 @@ jobs:
 
       - name: Executar testes
         run: poetry run task test
+
+      - name: Instalar pydantic
+        run: pipx install "pydantic[email]"
