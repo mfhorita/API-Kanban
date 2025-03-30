@@ -26,6 +26,9 @@ jobs:
       - name: Instalar dependências
         run: poetry install
 
+      - name: Instalar email_validator
+        run: pip install email_validator
+
       - name: Instalar pydantic
         run: pip install "pydantic[email]"
 
