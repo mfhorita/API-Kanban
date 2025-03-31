@@ -47,6 +47,3 @@ jobs:
 
       - name: Executar testes
         run: poetry run task test
-
-      - name: Executar aplicação
-        run: uvicorn app.main:app --host 0.0.0.0 --port 8000
