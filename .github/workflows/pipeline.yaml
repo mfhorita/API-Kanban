@@ -5,15 +5,22 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      SECRET_KEY: ${{ secrets.SECRET_KEY }}
-      ALGORITHM: ${{ secrets.ALGORITHM }}
-      ACCESS_TOKEN_EXPIRE_MINUTES: ${{ secrets.ACCESS_TOKEN_EXPIRE_MINUTES }}
+#    env:
+#      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+#      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+#      ALGORITHM: ${{ secrets.ALGORITHM }}
+#      ACCESS_TOKEN_EXPIRE_MINUTES: ${{ secrets.ACCESS_TOKEN_EXPIRE_MINUTES }}
 
     steps:
       - name: Copia os arquivos do repositório
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Configurar variáveis de ambiente
+        run: |
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
+          echo "ALGORITHM=${{ secrets.ALGORITHM }}" >> $GITHUB_ENV
+          echo "ACCESS_TOKEN_EXPIRE_MINUTES=${{ secrets.ACCESS_TOKEN_EXPIRE_MINUTES }}" >> $GITHUB_ENV
 
       - name: Instalar o python
         uses: actions/setup-python@v4
@@ -41,3 +48,5 @@ jobs:
       - name: Executar testes
         run: poetry run task test
 
+      - name: Executar aplicação
+        run: uvicorn app.main:app --host 0.0.0.0 --port 8000
