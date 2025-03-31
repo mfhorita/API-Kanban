@@ -35,5 +35,9 @@ jobs:
       - name: instalar python-multipart
         run: poetry add "python-multipart"
 
+      - name: Debug Environment Variables
+        run: env | grep DATABASE_URL
+
       - name: Executar testes
         run: poetry run task test
+
