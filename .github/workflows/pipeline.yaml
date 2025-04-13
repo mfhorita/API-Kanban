@@ -5,30 +5,30 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-#    env:
-#      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-#      SECRET_KEY: ${{ secrets.SECRET_KEY }}
-#      ALGORITHM: ${{ secrets.ALGORITHM }}
-#      ACCESS_TOKEN_EXPIRE_MINUTES: ${{ secrets.ACCESS_TOKEN_EXPIRE_MINUTES }}
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      ALGORITHM: ${{ secrets.ALGORITHM }}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${{ secrets.ACCESS_TOKEN_EXPIRE_MINUTES }}
 
     steps:
       - name: Copia os arquivos do repositório
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
-      - name: Configurar variáveis de ambiente
-        run: |
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
-          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
-          echo "ALGORITHM=${{ secrets.ALGORITHM }}" >> $GITHUB_ENV
-          echo "ACCESS_TOKEN_EXPIRE_MINUTES=${{ secrets.ACCESS_TOKEN_EXPIRE_MINUTES }}" >> $GITHUB_ENV
+#      - name: Configurar variáveis de ambiente
+#        run: |
+#          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+#          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
+#          echo "ALGORITHM=${{ secrets.ALGORITHM }}" >> $GITHUB_ENV
+#          echo "ACCESS_TOKEN_EXPIRE_MINUTES=${{ secrets.ACCESS_TOKEN_EXPIRE_MINUTES }}" >> $GITHUB_ENV
 
       - name: Instalar o python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v3
         with:
           python-version: '3.12'
 
       - name: Instalar o poetry
-        run: pipx install poetry
+        run: pip install poetry
 
       - name: Instalar dependências
         run: poetry install
@@ -42,8 +42,11 @@ jobs:
       - name: instalar python-multipart
         run: poetry add "python-multipart"
 
-      - name: Debug Environment Variables
-        run: env | grep DATABASE_URL
+#      - name: Debug Environment Variables
+#        run: env | grep DATABASE_URL
+
+#      - name: Variavel de ambiente
+#        run: export PATH="$PATH:/root/.local/bin"
 
       - name: Executar testes
         run: poetry run task test
