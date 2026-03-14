@@ -1,0 +1,10 @@
+# 1. Apaga o lock atual
+rm poetry.lock
+
+# 2. Regenera do zero sem cache
+poetry lock --no-cache
+
+# 3. Confirma no git
+git add poetry.lock
+git commit -m "Regenerate poetry.lock"
+git push
