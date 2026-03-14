@@ -4,7 +4,7 @@ ENV POETRY_VIRTUALENVS_CREATE=false
 WORKDIR app/
 COPY . .
 
-RUN pip install poetry
+RUN pip install poetry --no-cache
 RUN pip install uvicorn
 RUN pip install email_validator
 RUN pip install "python-multipart"
