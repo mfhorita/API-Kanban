@@ -22,13 +22,16 @@ def test_create_user(client):
 
 def test_read_users(client):
     response = client.get('/users')
-    assert response.status_code == HTTPStatus.OK
-    assert response.json() == {'users': []}
+    assert response.status_code == HTTPStatus.UNAUTHORIZED
+    assert response.json() == {'detail': 'Not authenticated'}
 
 
-def test_read_users_with_users(client, user):
+def test_read_users_with_users(client, user, token):
     user_schema = UserPublic.model_validate(user).model_dump()
-    response = client.get('/users/')
+    response = client.get(
+        '/users/', headers={'Authorization': f'Bearer {token}'}
+    )
+    assert response.status_code == HTTPStatus.OK
     assert response.json() == {'users': [user_schema]}
 
 
@@ -86,3 +89,17 @@ def test_delete_user(client, user, token):
 
     assert response.status_code == HTTPStatus.OK
     assert response.json() == {'message': 'User deleted'}
+
+
+def test_create_user_duplicate_does_not_disclose_field(client):
+    payload = {
+        'username': 'alice',
+        'email': 'alice@example.com',
+        'password': 'secret',
+    }
+
+    client.post('/users/', json=payload)
+    response = client.post('/users/', json=payload)
+
+    assert response.status_code == HTTPStatus.CONFLICT
+    assert response.json() == {'detail': 'Username or Email already exists'}

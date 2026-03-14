@@ -34,16 +34,10 @@ async def create_user(user: UserSchema, session: Session):
     )
 
     if db_user:
-        if db_user.username == user.username:
-            raise HTTPException(
-                status_code=HTTPStatus.CONFLICT,
-                detail='Username already exists',
-            )
-        elif db_user.email == user.email:
-            raise HTTPException(
-                status_code=HTTPStatus.CONFLICT,
-                detail='Email already exists',
-            )
+        raise HTTPException(
+            status_code=HTTPStatus.CONFLICT,
+            detail='Username or Email already exists',
+        )
 
     hashed_password = get_password_hash(user.password)
 
@@ -62,7 +56,9 @@ async def create_user(user: UserSchema, session: Session):
 
 @router.get('/', response_model=UserList)
 async def read_users(
-    session: Session, filter_users: Annotated[FilterPage, Query()]
+    session: Session,
+    filter_users: Annotated[FilterPage, Query()],
+    current_user: CurrentUser,
 ):
     query = await session.scalars(
         select(User).offset(filter_users.offset).limit(filter_users.limit)
